@@ -9,7 +9,8 @@ import { AppSideBar } from '../AppSideBar/AppSideBar'
 type Props = {}
 
 export const AppBody:React.FC<Props> = () => {
-
+    const [selectedItem, setSelectedItem] = React.useState<ETipus>(ETipus.talleres);
+    const [selectedResponse, setSelectedResponse] = React.useState<ApiResponse[]>([]);
     const [talleres, setTalleres] = React.useState<ApiResponse[]>([]);
     const [rincones, setRincones] = React.useState<ApiResponse[]>([]);
     const [ambientes, setAmbientes] = React.useState<ApiResponse[]>([]);
@@ -19,18 +20,39 @@ export const AppBody:React.FC<Props> = () => {
 
     useEffect(() => {
         if(firstLoad) {
-            getData();
+            getData(selectedItem);
             setFirstLoad(false);
         }
     });
 
-    const getData = () => {
-        fetch('https://api.mocklets.com/mock68016/' + ETipus.talleres)
+    useEffect(() => {
+        getData(selectedItem);
+    }, [selectedItem]);
+
+    const getData = (selectedItem : ETipus) => {
+        fetch('https://api.mocklets.com/mock68016/' + selectedItem)
             .then(response => response.json())
-            .then((talleres)=> {
+            .then((response)=> {
                 setIsLoading(false);
-                setTalleres(talleres);
-                console.log(talleres);
+                if(response && response.length > 0) {
+                    setSelectedResponse(response);
+                    switch(selectedItem) {
+                        case ETipus.talleres:
+                            setTalleres(response);
+                            break;
+                        case ETipus.rincones:
+                            setRincones(response);
+                            break;
+                        case ETipus.ambientes:
+                            setAmbientes(response);
+                            break;
+                        case ETipus.rutinas:
+                            setRutinas(response);
+                            break;
+                    }
+                }else{
+                    setSelectedResponse([]);
+                }
             })
             .catch(error => console.log(error));
     }
@@ -45,11 +67,11 @@ export const AppBody:React.FC<Props> = () => {
         return(
             <div className="app-main">
                 <AppSearchBar/>
-                <AppSideBar />
+                <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => setSelectedItem(newValue)}/>
                 <div className="app-body">
-                    <div className="app-body-title">{ETipus.talleres}</div>
-                    {talleres.map((talleres) => (
-                        <AppResourceList key={talleres.sectionName} recursos={talleres}/>
+                    <div className="app-body-title">{selectedItem}</div>
+                    {selectedResponse.map((items) => (
+                        <AppResourceList key={items.sectionName} recursos={items}/>
                     ))}
                 </div>
             </div>

@@ -9,7 +9,7 @@ export const AppSearchBar:React.FC<Props> = () => {
     return (
         <div className="app-search-bar">
             <AppSearchBarFilters />
-            <input type="text" placeholder="Introduce un texto" />
+            <input className="app-search-bar-search-box" type="text" placeholder="Introduce un texto" />
             <button className="app-search-bar-search-button">
                 <img src={LupaIcon} alt=""/>
                 <span>Buscar</span>

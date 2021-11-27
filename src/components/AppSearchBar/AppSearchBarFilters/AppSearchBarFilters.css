@@ -1,0 +1,38 @@
+.app-search-bar-filters{
+    width: 266px;
+    border: 1px solid #18C6AC;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.app-search-bar-filters--show{
+    border-radius: 10px 0 0 0;
+}
+.app-search-bar-filters a{
+    text-decoration: none;
+    color: #18C6AC;
+    text-transform: capitalize;
+}
+.app-search-bar-filters a *{
+    margin: 0 0.5rem;
+}
+.app-search-bar-filters a img{
+    height: 12px;
+}
+.app-search-bar-filter-dropdown{
+    display: none;
+    position: absolute;
+    top: 38px;
+    left: -1px;
+    width: 234px;
+    border: 1px solid #18C6AC;
+    border-radius: 0 0 10px 10px;
+    background: #fff;
+    padding: 1rem;
+}
+.app-search-bar-filter-dropdown--show{
+    display: block;
+}

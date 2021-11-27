@@ -1,0 +1,16 @@
+.app-resource{
+    width: 100%;
+}
+
+.app-resource-title{
+    display: flex;
+    padding: .5rem 0;
+    border-bottom: 1px solid #18C6AC;
+}
+
+.app-resource-list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}

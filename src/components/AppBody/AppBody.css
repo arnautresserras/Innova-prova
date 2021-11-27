@@ -1,0 +1,22 @@
+.app-main{
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    font-family: 'Roboto';
+}
+
+.app-body{
+    grid-column: 2 / -1;
+    grid-row: 2 / 3;
+    display: flex;
+    padding: 0 2rem;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.app-body-title{
+    font-weight: bold;
+    text-transform: capitalize;
+    padding: 1rem 0;
+    font-size: 1.6rem;
+}

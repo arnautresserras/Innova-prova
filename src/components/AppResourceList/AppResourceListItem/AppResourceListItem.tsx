@@ -6,20 +6,22 @@ import FavouriteIcon from '../../../assets/FavouriteIcon.svg';
 
 type Props = {
     recurs: Recurs;
+    itemFavourited: (id: number) => void;
 };
 
-export const AppResourceListItem:React.FC<Props> = ({recurs}) => {
+export const AppResourceListItem:React.FC<Props> = ({recurs, itemFavourited}) => {
     const [favourite, setFavourite] = React.useState(recurs.favourite);
-    const handleFavourite = () => {
+    const handleFavourite = (id: number) => {
         setFavourite(!favourite);
+        itemFavourited(id);
     }
     return (
         <div className="app-resource-list-item">
             <img className="app-resource-list-item-image" src={recurs.image} alt={recurs.title}/>
             <div className="app-resource-list-item-title">{recurs.title}</div>
             <div className="app-resource-list-item-description">{recurs.description}</div>
-            <div className="app-resource-list-item-favourite">
-                {favourite ? <img className="app-resource-list-item-favourite-icon" src={FavouriteFullIcon} alt="favourite" onClick={handleFavourite}/> : <img className="app-resource-list-item-favourite-icon" src={FavouriteIcon} alt="favourite" onClick={handleFavourite}/>}
+            <div className="app-resource-list-item-favourite" onClick={() => handleFavourite(recurs.id)}>
+                <img className="app-resource-list-item-favourite-icon" src={favourite ? FavouriteFullIcon : FavouriteIcon} alt="favourite"/>
                 <span>favorito</span>
             </div>
         </div>

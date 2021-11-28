@@ -27,6 +27,7 @@
     font-size: 12px;
     border-radius: 5px;
     background-color: #DDEAEA;
+    text-transform: capitalize;
 }
 .app-search-bar-filter-subcategory-dropdown-item-wide{
     width: 40%;

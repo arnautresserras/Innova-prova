@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import './AppBody.css'
 import { ETipus } from '../../utils/enums/ETipus'
 import { ApiResponse } from '../../utils/models/ApiResponse'
@@ -10,14 +10,15 @@ import { AppLoader } from './AppLoader/AppLoader'
 type Props = {}
 
 export const AppBody:React.FC<Props> = () => {
-    const [selectedItem, setSelectedItem] = React.useState<ETipus>(ETipus.talleres);
-    const [selectedResponse, setSelectedResponse] = React.useState<ApiResponse[]>([]);
-    const [talleres, setTalleres] = React.useState<ApiResponse[]>([]);
-    const [rincones, setRincones] = React.useState<ApiResponse[]>([]);
-    const [ambientes, setAmbientes] = React.useState<ApiResponse[]>([]);
-    const [rutinas, setRutinas] = React.useState<ApiResponse[]>([]);
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [firstLoad, setFirstLoad] = React.useState(true);
+    const [selectedItem, setSelectedItem] = useState<ETipus>(ETipus.talleres);
+    const [selectedResponse, setSelectedResponse] = useState<ApiResponse[]>([]);
+    const [talleres, setTalleres] = useState<ApiResponse[]>([]);
+    const [rincones, setRincones] = useState<ApiResponse[]>([]);
+    const [ambientes, setAmbientes] = useState<ApiResponse[]>([]);
+    const [rutinas, setRutinas] = useState<ApiResponse[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [firstLoad, setFirstLoad] = useState(true);
+    const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
         if(firstLoad) {
@@ -31,41 +32,174 @@ export const AppBody:React.FC<Props> = () => {
         getData(selectedItem);
     }, [selectedItem]);
 
+    const handleScroll = () => {
+        document.getElementsByClassName('app-body')[0].scrollTop > 0 ? setScrolled(true) : setScrolled(false);
+    }
+
     const getData = (selectedItem : ETipus) => {
-        fetch('https://api.mocklets.com/mock68016/' + selectedItem)
-            .then(response => response.json())
-            .then((response)=> {
-                setIsLoading(false);
-                if(response && response.length > 0) {
-                    setSelectedResponse(response);
-                    switch(selectedItem) {
-                        case ETipus.talleres:
-                            setTalleres(response);
-                            break;
-                        case ETipus.rincones:
-                            setRincones(response);
-                            break;
-                        case ETipus.ambientes:
-                            setAmbientes(response);
-                            break;
-                        case ETipus.rutinas:
-                            setRutinas(response);
-                            break;
-                    }
-                }else{
-                    setSelectedResponse([]);
+        switch(selectedItem) {
+            case ETipus.talleres:
+                if(talleres.length === 0) {
+                    fetch('https://api.mocklets.com/mock68016/' + selectedItem)
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data && data.length > 0) {
+                            setTalleres(data);
+                            setSelectedResponse(data);
+                            setIsLoading(false);
+                        }else{
+                            setIsLoading(false);
+                            setSelectedResponse([]);
+                        }
+                    })
+                    .catch(error => {
+                        setIsLoading(false);
+                        setSelectedResponse([]);
+                    });
+                } else {
+                    setSelectedResponse(talleres);
+                    setIsLoading(false);
                 }
-            })
-            .catch(error => {
-                setIsLoading(false);
+                break;
+            case ETipus.rincones:
+                if(rincones.length === 0) {
+                    fetch('https://api.mocklets.com/mock68016/' + selectedItem)
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data && data.length > 0) {
+                            setRincones(data);
+                            setSelectedResponse(data);
+                            setIsLoading(false);
+                        }else{
+                            setIsLoading(false);
+                            setSelectedResponse([]);
+                        }
+                    })
+                    .catch(error => {
+                        setIsLoading(false);
+                        setSelectedResponse([]);
+                    });
+                } else {
+                    setSelectedResponse(rincones);
+                    setIsLoading(false);
+                }
+                break;
+            case ETipus.ambientes:
+                if(ambientes.length === 0) {
+                    fetch('https://api.mocklets.com/mock68016/' + selectedItem)
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data && data.length > 0) {
+                            setAmbientes(data);
+                            setSelectedResponse(data);
+                            setIsLoading(false);
+                        }else{
+                            setIsLoading(false);
+                            setSelectedResponse([]);
+                        }
+                    })
+                    .catch(error => {
+                        setIsLoading(false);
+                        setSelectedResponse([]);
+                    });
+                } else {
+                    setSelectedResponse(ambientes);
+                    setIsLoading(false);
+                }
+                break;
+            case ETipus.rutinas:
+                if(rutinas.length === 0) {
+                    fetch('https://api.mocklets.com/mock68016/' + selectedItem)
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data && data.length > 0) {
+                            setRutinas(data);
+                            setSelectedResponse(data);
+                            setIsLoading(false);
+                        }else{
+                            setIsLoading(false);
+                            setSelectedResponse([]);
+                        }
+                    })
+                    .catch(error => {
+                        setIsLoading(false);
+                        setSelectedResponse([]);
+                    });
+                }else {
+                    setSelectedResponse(rutinas);
+                    setIsLoading(false);
+                }
+                break;
+            default:
                 setSelectedResponse([]);
-            });
+                setIsLoading(false);
+                break;
+        }
+    }
+
+    const handleFavourite = (id: number) => {
+        switch(selectedItem) {
+            case ETipus.talleres:
+                const newTalleres = talleres.map(item => {
+                    item.resources.map(res => {
+                        if(res.id === id) {
+                            res.favourite = !res.favourite;
+                        }
+                        return res;
+                    });
+                    return item;
+                });
+                setTalleres(newTalleres);
+                setSelectedResponse(newTalleres);
+                break;
+            case ETipus.rincones:
+                const newRincones = rincones.map(item => {
+                    item.resources.map(res => {
+                        if(res.id === id) {
+                            res.favourite = !res.favourite;
+                        }
+                        return res;
+                    });
+                    return item;
+                });
+                setRincones(newRincones);
+                setSelectedResponse(newRincones);
+                break;
+            case ETipus.ambientes:
+                const newAmbientes = ambientes.map(item => {
+                    item.resources.map(res => {
+                        if(res.id === id) {
+                            res.favourite = !res.favourite;
+                        }
+                        return res;
+                    });
+                    return item;
+                });
+                setAmbientes(newAmbientes);
+                setSelectedResponse(newAmbientes);
+                break;
+            case ETipus.rutinas:
+                const newRutinas = rutinas.map(item => {
+                    item.resources.map(res => {
+                        if(res.id === id) {
+                            res.favourite = !res.favourite;
+                        }
+                        return res;
+                    });
+                    return item;
+                });
+                setRutinas(newRutinas);
+                setSelectedResponse(newRutinas);
+                break;
+            default:
+                break;
+        }
     }
 
     if(isLoading) {
         return(
             <div className="app-main">
-                <AppSearchBar/>
+                <AppSearchBar />
                 <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => setSelectedItem(newValue)}/>
                 <div className="app-body app-body-loader">
                     <AppLoader />
@@ -75,12 +209,12 @@ export const AppBody:React.FC<Props> = () => {
     } else {
         return(
             <div className="app-main">
-                <AppSearchBar/>
+                <AppSearchBar scrolled={scrolled}/>
                 <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => setSelectedItem(newValue)}/>
-                <div className="app-body">
+                <div className="app-body" onScroll={() => handleScroll()}>
                     <div className="app-body-title">{selectedItem}</div>
                     {selectedResponse.map((items) => (
-                        <AppResourceList key={items.sectionName} recursos={items}/>
+                        <AppResourceList key={items.sectionName} recursos={items} handleFavourite={(newId) => handleFavourite(newId)}/>
                     ))}
                     {selectedResponse.length === 0 ? (
                         <div className="app-body-empty">
@@ -91,4 +225,4 @@ export const AppBody:React.FC<Props> = () => {
             </div>
         )
     }
-};
+}

@@ -5,6 +5,7 @@ import { ApiResponse } from '../../utils/models/ApiResponse'
 import { AppResourceList } from '../AppResourceList/AppResourceList'
 import { AppSearchBar } from '../AppSearchBar/AppSearchBar'
 import { AppSideBar } from '../AppSideBar/AppSideBar'
+import { AppLoader } from './AppLoader/AppLoader'
 
 type Props = {}
 
@@ -26,6 +27,7 @@ export const AppBody:React.FC<Props> = () => {
     });
 
     useEffect(() => {
+        setIsLoading(true);
         getData(selectedItem);
     }, [selectedItem]);
 
@@ -54,13 +56,20 @@ export const AppBody:React.FC<Props> = () => {
                     setSelectedResponse([]);
                 }
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                setIsLoading(false);
+                setSelectedResponse([]);
+            });
     }
 
     if(isLoading) {
         return(
-            <div className="Loader">
-                Loading
+            <div className="app-main">
+                <AppSearchBar/>
+                <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => setSelectedItem(newValue)}/>
+                <div className="app-body app-body-loader">
+                    <AppLoader />
+                </div>
             </div>
         )
     } else {
@@ -73,6 +82,11 @@ export const AppBody:React.FC<Props> = () => {
                     {selectedResponse.map((items) => (
                         <AppResourceList key={items.sectionName} recursos={items}/>
                     ))}
+                    {selectedResponse.length === 0 ? (
+                        <div className="app-body-empty">
+                            No hay resultados
+                        </div>
+                    ) : null}
                 </div>
             </div>
         )

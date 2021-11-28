@@ -6,6 +6,8 @@ import { AppResourceList } from '../AppResourceList/AppResourceList'
 import { AppSearchBar } from '../AppSearchBar/AppSearchBar'
 import { AppSideBar } from '../AppSideBar/AppSideBar'
 import { AppLoader } from './AppLoader/AppLoader'
+import { AppDetails } from '../AppDetails/AppDetails'
+import { FitxerRecurs } from '../../utils/models/FitxerRecurs'
 
 type Props = {}
 
@@ -17,23 +19,39 @@ export const AppBody:React.FC<Props> = () => {
     const [ambientes, setAmbientes] = useState<ApiResponse[]>([]);
     const [rutinas, setRutinas] = useState<ApiResponse[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [firstLoad, setFirstLoad] = useState(true);
     const [scrolled, setScrolled] = useState(false);
+    const [viewDetailsMode, setViewDetailsMode] = useState(false);
+    const [selectedDetailsId, setSelectedDetailsId] = useState(0);
+    const [selectedDetails, setSelectedDetails] = useState<FitxerRecurs>({} as FitxerRecurs);
+    const [firstLoad, setFirstLoad] = useState(true);
 
     useEffect(() => {
-        if(firstLoad) {
-            getData(selectedItem);
+        if (firstLoad) {
             setFirstLoad(false);
+            handleMenuAction(selectedItem);
         }
     });
 
-    useEffect(() => {
+    const handleMenuAction = (item: ETipus) => {
+        setSelectedItem(item);
+        setViewDetailsMode(false);
         setIsLoading(true);
         getData(selectedItem);
-    }, [selectedItem]);
+    }
 
     const handleScroll = () => {
         document.getElementsByClassName('app-body')[0].scrollTop > 0 ? setScrolled(true) : setScrolled(false);
+    }
+
+    const getDetails = (id: number) => {
+        fetch('https://api.mocklets.com/mock68016/resources/' + id)
+            .then(response => response.json())
+            .then(data => {
+                setViewDetailsMode(true)
+                setSelectedDetails(data)
+                setIsLoading(false)
+            })
+            .catch(error => console.log(error))
     }
 
     const getData = (selectedItem : ETipus) => {
@@ -196,33 +214,51 @@ export const AppBody:React.FC<Props> = () => {
         }
     }
 
+    const handleViewDetails = (id: number) => {
+        setSelectedDetailsId(id);
+        setIsLoading(true);
+        getDetails(selectedDetailsId);
+    }
+
     if(isLoading) {
         return(
             <div className="app-main">
                 <AppSearchBar />
-                <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => setSelectedItem(newValue)}/>
+                <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
                 <div className="app-body app-body-loader">
                     <AppLoader />
                 </div>
             </div>
         )
     } else {
-        return(
-            <div className="app-main">
-                <AppSearchBar scrolled={scrolled}/>
-                <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => setSelectedItem(newValue)}/>
-                <div className="app-body" onScroll={() => handleScroll()}>
-                    <div className="app-body-title">{selectedItem}</div>
-                    {selectedResponse.map((items) => (
-                        <AppResourceList key={items.sectionName} recursos={items} handleFavourite={(newId) => handleFavourite(newId)}/>
-                    ))}
-                    {selectedResponse.length === 0 ? (
-                        <div className="app-body-empty">
-                            No hay resultados
-                        </div>
-                    ) : null}
+        if(viewDetailsMode) {
+            return (
+                <div className="app-main">
+                    <AppSearchBar />
+                    <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
+                    <div className="app-body">
+                        <AppDetails recurs={selectedDetails}/>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }else{
+            return(
+                <div className="app-main">
+                    <AppSearchBar scrolled={scrolled}/>
+                    <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
+                    <div className="app-body" onScroll={() => handleScroll()}>
+                        <div className="app-body-title">{selectedItem}</div>
+                        {selectedResponse.map((items) => (
+                            <AppResourceList key={items.sectionName} recursos={items} handleFavourite={(newId) => handleFavourite(newId)} handleDetails={(newId) => handleViewDetails(newId)}/>
+                        ))}
+                        {selectedResponse.length === 0 ? (
+                            <div className="app-body-empty">
+                                No hay resultados
+                            </div>
+                        ) : null}
+                    </div>
+                </div>
+            )
+        }
     }
 }

@@ -45,3 +45,28 @@
     height: 2rem;
     margin-right: 1rem;
 }
+
+
+@media (max-width: 768px){
+    .app-side-bar{
+        order: 2;
+        box-shadow: 0px -4px 4px 0px #0000001A;
+    }
+    .app-side-bar-header{
+        display: none;
+    }
+    .app-side-bar-content{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+    .app-side-bar-button{
+        margin-top: 0;
+    }
+    .app-side-bar-button-image{
+        margin: 0;
+    }
+    .app-side-bar-button-title{
+        display: none;
+    }
+}

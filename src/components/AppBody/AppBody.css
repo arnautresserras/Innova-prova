@@ -28,3 +28,17 @@
     padding: 1rem 0;
     font-size: 1.6rem;
 }
+
+@media (max-width: 768px){
+    .app-main{
+        display: flex;
+        flex-direction: column;
+    }
+    .app-body{
+        height: max-content;
+    }
+    .app-body-loader,
+    .app-body-empty{
+        height: calc(100vh - 138px);
+    }
+}

@@ -17,6 +17,7 @@
     text-transform: capitalize;
     margin: 0 0.5rem;
 }
+.app-search-bar-filters .app-search-bar-filters-dropdown-icon,
 .app-search-bar-filters .app-search-bar-filters-toggle-icon {
     margin: 0 0.5rem;
     height: 12px;
@@ -34,4 +35,25 @@
 }
 .app-search-bar-filter-dropdown--show{
     display: block;
+}
+@media (max-width: 768px) {
+    .app-search-bar-filters{
+        order: 2;
+        width: max-content;
+        border-radius: 0;
+        border: none;
+        margin-right: 1rem;
+    }
+    .app-search-bar-filters .app-search-bar-filters-dropdown-icon{
+        display: none;
+    }
+    .app-search-bar-filters .app-search-bar-filters-toggle-text{
+        display: none;
+    }
+    .app-search-bar-filter-dropdown{
+        left: unset;
+        top: 33px;
+        right: -17px;
+        width: calc(100vw - 66px);
+    }
 }

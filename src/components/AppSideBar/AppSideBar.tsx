@@ -36,7 +36,7 @@ export const AppSideBar:React.FC<Props> = ({selectedItem, setSelectedItem}) => {
                     return (
                         <div className={`app-side-bar-button ${selectedItem === item ? "app-side-bar-button-active":""}`} key={item} onClick={() => setSelectedItem(item)}>
                             <img className="app-side-bar-button-image" src={getIcon(item)} alt="tipus" />
-                            {item}
+                            <h3 className="app-side-bar-button-title">{item}</h3>
                         </div>
                     )
                 })}

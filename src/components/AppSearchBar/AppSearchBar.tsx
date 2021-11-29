@@ -30,12 +30,14 @@ export const AppSearchBar:React.FC<Props> = ({scrolled, handleSearch, handleType
 
     return (
         <div className={`app-search-bar ${isScrolled ? 'app-search-bar-scrolled' : ''}`}>
-            <AppSearchBarFilters handleTypeFilter={(tipus) => handleTypeFilter(tipus)}/>
-            <input className="app-search-bar-search-box" type="text" placeholder="Introduce un texto" onKeyDown={(event) => handleInputChange(event)} onChange={(event) => handleChange(event)}/>
-            <button className="app-search-bar-search-button" onClick={() => handleSearch(searchString)}>
-                <img src={LupaIcon} alt=""/>
-                <span>Buscar</span>
-            </button>
+            <div className="app-search-bar-wrapper">
+                <AppSearchBarFilters handleTypeFilter={(tipus) => handleTypeFilter(tipus)}/>
+                <input className="app-search-bar-search-box" type="text" placeholder="Introduce un texto" onKeyDown={(event) => handleInputChange(event)} onChange={(event) => handleChange(event)}/>
+                <button className="app-search-bar-search-button" onClick={() => handleSearch(searchString)}>
+                    <img src={LupaIcon} alt=""/>
+                    <span>Buscar</span>
+                </button>
+            </div>
         </div>
     )
 }

@@ -20,7 +20,7 @@ export const AppSearchBarFilters:React.FC<Props> = ({ handleTypeFilter }) => {
     return (
         <div className={`app-search-bar-filters ${showFilters ? 'app-search-bar-filters--show' : ''}`}>
             <div className="app-search-bar-filters-toggle" onClick={() => handleFiltersClick()}>
-                <img src={showFilters ? DropUpIcon : DropDownIcon} alt="DropdownIcon" className="app-search-bar-filters-toggle-icon" />
+                <img src={showFilters ? DropUpIcon : DropDownIcon} alt="DropdownIcon" className="app-search-bar-filters-dropdown-icon" />
                 <span className="app-search-bar-filters-toggle-text">
                     Filtros
                 </span>

@@ -1,4 +1,5 @@
 
+
 # Prova Innovamat Arnau Tresserras
 
 ## Com executar
@@ -45,4 +46,4 @@ Pel que fa a les funcionalitats de l'aplicació, he implementat tant els requeri
  - Gestió de "favoritos": per a la gestió dels elements preferits, he decidit identificar cada element pel seu ID, com veureu, alguns dels IDs estan repetits i a vegades preferim més d'un element. He pensat que en cas que un element pertanyés a diverses categories seria interessant que l'alumne que el marca com a preferit també veies l'indicador a altres instàncies de l'element. També m'ha semblat raonable pensar que es tracta d'un conjunt de dades de test i que en un cas real no tindríem elements diferents amb un mateix ID.
  - Pàgina de detall: Per a la pàgina de detall he assumit que tots els recursos que rebem serien en format PDF (no n'he trobat cap que no ho fos), així que els mostro en pantalla fent servir la llibreria prèviament esmentada. Si es donés el cas que tinguem fitxers de vídeo, imatges o altres recursos hauríem de validar el format del recurs per a mostrar el component adient a cada cas.
  - Versió mobile
- - Cerca i filtrat
+ - Cerca i filtrat: Pel cercat i filtrat he fet una crida al backend amb els paràmetres establerts i llavors un filtrat al front segons el filtre de tipus que estigui seleccionat. Segons l'escala de l'aplicació i el volum de dades s'hauria de valorar si és millor passar aquests paràmetres de filtrat com a part del request i així evitar descarregar dades de més al client. Com que en el sistema actual descarrego totes les dades que envia el servidor he implementat el filtrat de manera que no fem crides al backend si només ha canviat el filtre de tipus, ja que les dades ja s'han descarregat previament.

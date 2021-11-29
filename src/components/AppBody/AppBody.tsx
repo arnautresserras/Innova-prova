@@ -34,9 +34,9 @@ export const AppBody:React.FC<Props> = () => {
 
     const handleMenuAction = (item: ETipus) => {
         setSelectedItem(item);
-        setViewDetailsMode(false);
         setIsLoading(true);
-        getData(selectedItem);
+        setViewDetailsMode(false);
+        getData(item);
     }
 
     const handleScroll = () => {
@@ -63,7 +63,7 @@ export const AppBody:React.FC<Props> = () => {
                     .then(data => {
                         if(data && data.length > 0) {
                             setTalleres(data);
-                            setSelectedResponse(data);
+                            setSelectedResponse(talleres);
                             setIsLoading(false);
                         }else{
                             setIsLoading(false);
@@ -86,7 +86,7 @@ export const AppBody:React.FC<Props> = () => {
                     .then(data => {
                         if(data && data.length > 0) {
                             setRincones(data);
-                            setSelectedResponse(data);
+                            setSelectedResponse(rincones);
                             setIsLoading(false);
                         }else{
                             setIsLoading(false);
@@ -109,7 +109,7 @@ export const AppBody:React.FC<Props> = () => {
                     .then(data => {
                         if(data && data.length > 0) {
                             setAmbientes(data);
-                            setSelectedResponse(data);
+                            setSelectedResponse(ambientes);
                             setIsLoading(false);
                         }else{
                             setIsLoading(false);
@@ -132,7 +132,7 @@ export const AppBody:React.FC<Props> = () => {
                     .then(data => {
                         if(data && data.length > 0) {
                             setRutinas(data);
-                            setSelectedResponse(data);
+                            setSelectedResponse(rutinas);
                             setIsLoading(false);
                         }else{
                             setIsLoading(false);

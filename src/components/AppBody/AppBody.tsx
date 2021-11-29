@@ -31,7 +31,9 @@ export const AppBody:React.FC<Props> = () => {
     const [firstLoad, setFirstLoad] = useState(true)
 
     useEffect(() => {
-        console.log("Filter", selectedFilter)
+        if(searchResponse.length > 0) {
+            setFilteredSearchResponse(searchResponse.filter((item: Recurs) => item.tag.toString().toLowerCase() === selectedFilter.toString().toLowerCase()))
+        }
     }, [selectedFilter])
 
     useEffect(() => {
@@ -107,8 +109,7 @@ export const AppBody:React.FC<Props> = () => {
                 setIsLoading(false)
                 setSelectedResponse([])
             })
-            console.log(searchResponse)
-        }
+        }        
     }
 
     const handleMenuAction = (item: ETipus) => {
@@ -219,7 +220,7 @@ export const AppBody:React.FC<Props> = () => {
                     <AppSearchBar scrolled={scrolled} handleSearch={(newString) => handleSearch(newString)} handleTypeFilter={(tipus) => setSelectedFilter(tipus)}/>
                     <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
                     <div className="app-body" onScroll={() => handleScroll()}>
-                        <AppResourceList sectionName={"Resultats de la cerca"} recursos={searchResponse} handleDetails={(id) => handleViewDetails(id)} handleFavourite={(id) => handleFavourite(id)}/>
+                        <AppResourceList sectionName={"Resultats de la cerca"} recursos={filteredSearchResponse} handleDetails={(id) => handleViewDetails(id)} handleFavourite={(id) => handleFavourite(id)}/>
                     </div>
                 </div>
             )

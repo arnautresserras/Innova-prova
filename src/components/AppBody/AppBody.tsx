@@ -8,13 +8,15 @@ import { AppSideBar } from '../AppSideBar/AppSideBar'
 import { AppLoader } from './AppLoader/AppLoader'
 import { AppDetails } from '../AppDetails/AppDetails'
 import { FitxerRecurs } from '../../utils/models/FitxerRecurs'
-import { API_URL } from '../../utils/url.constants'
+import { API_SEARCH_URL, API_URL } from '../../utils/url.constants'
+import { Recurs } from '../../utils/models/Recurs'
 
 type Props = {}
 
 export const AppBody:React.FC<Props> = () => {
     const [selectedItem, setSelectedItem] = useState<ETipus>(ETipus.talleres);
     const [selectedResponse, setSelectedResponse] = useState<ApiResponse[]>([]);
+    const [searchResponse, setSearchResponse] = useState<Recurs[]>([]);
     const [talleres, setTalleres] = useState<ApiResponse[]>([]);
     const [rincones, setRincones] = useState<ApiResponse[]>([]);
     const [ambientes, setAmbientes] = useState<ApiResponse[]>([]);
@@ -72,9 +74,40 @@ export const AppBody:React.FC<Props> = () => {
         }
     }
 
+    const handleSearch = (searchText: string) => {
+        if(searchText.length > 0) {
+            setIsLoading(true);
+            fetch(API_SEARCH_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    keyword: searchText
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data && data.length > 0) {
+                    setSearchResponse(data);
+                    setIsLoading(false);
+                }else{
+                    setIsLoading(false);
+                    setSearchResponse([]);
+                }
+            })
+            .catch(error => {
+                setIsLoading(false);
+                setSelectedResponse([]);
+            });
+            console.log(searchResponse);
+        }
+    }
+
     const handleMenuAction = (item: ETipus) => {
         setSelectedItem(item)
         setIsLoading(true)
+        setSearchResponse([]);
         setViewDetailsMode(false)
         switch (item) {
             case ETipus.talleres:
@@ -158,13 +191,14 @@ export const AppBody:React.FC<Props> = () => {
     const handleViewDetails = (id: number) => {
         setSelectedDetailsId(id);
         setIsLoading(true);
+        setSearchResponse([]);
         getDetails(selectedDetailsId);
     }
 
     if(isLoading) {
         return(
             <div className="app-main">
-                <AppSearchBar />
+                <AppSearchBar handleSearch={(newString) => handleSearch(newString)}/>
                 <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
                 <div className="app-body app-body-loader">
                     <AppLoader />
@@ -172,10 +206,21 @@ export const AppBody:React.FC<Props> = () => {
             </div>
         )
     } else {
+        if(searchResponse.length > 0) {
+            return(
+                <div className="app-main">
+                    <AppSearchBar handleSearch={(newString) => handleSearch(newString)}/>
+                    <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
+                    <div className="app-body" onScroll={() => handleScroll()}>
+                        <AppResourceList sectionName={"Resultats de la cerca"} recursos={searchResponse} handleDetails={(id) => handleViewDetails(id)} handleFavourite={(id) => handleFavourite(id)}/>
+                    </div>
+                </div>
+            )
+        }
         if(viewDetailsMode) {
             return (
                 <div className="app-main">
-                    <AppSearchBar />
+                    <AppSearchBar handleSearch={(newString) => handleSearch(newString)}/>
                     <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
                     <div className="app-body">
                         <AppDetails recurs={selectedDetails}/>
@@ -185,12 +230,12 @@ export const AppBody:React.FC<Props> = () => {
         }else{
             return(
                 <div className="app-main">
-                    <AppSearchBar scrolled={scrolled}/>
+                    <AppSearchBar scrolled={scrolled} handleSearch={(newString) => handleSearch(newString)}/>
                     <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
                     <div className="app-body" onScroll={() => handleScroll()}>
                         <div className="app-body-title">{selectedItem}</div>
                         {selectedResponse.map((items) => (
-                            <AppResourceList key={items.sectionName} recursos={items} handleFavourite={(newId) => handleFavourite(newId)} handleDetails={(newId) => handleViewDetails(newId)}/>
+                            <AppResourceList key={items.sectionName} sectionName={items.sectionName} recursos={items.resources} handleDetails={(id) => handleViewDetails(id)} handleFavourite={(id) => handleFavourite(id)}/>
                         ))}
                         {selectedResponse.length === 0 ? (
                             <div className="app-body-empty">

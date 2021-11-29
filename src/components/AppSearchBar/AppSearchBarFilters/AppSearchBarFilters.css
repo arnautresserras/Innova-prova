@@ -11,15 +11,14 @@
 .app-search-bar-filters--show{
     border-radius: 10px 0 0 0;
 }
-.app-search-bar-filters a{
+.app-search-bar-filters .app-search-bar-filters-toggle-text{
     text-decoration: none;
     color: #18C6AC;
     text-transform: capitalize;
-}
-.app-search-bar-filters a *{
     margin: 0 0.5rem;
 }
-.app-search-bar-filters a img{
+.app-search-bar-filters .app-search-bar-filters-toggle-icon {
+    margin: 0 0.5rem;
     height: 12px;
 }
 .app-search-bar-filter-dropdown{

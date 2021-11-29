@@ -8,6 +8,7 @@ import { AppSideBar } from '../AppSideBar/AppSideBar'
 import { AppLoader } from './AppLoader/AppLoader'
 import { AppDetails } from '../AppDetails/AppDetails'
 import { FitxerRecurs } from '../../utils/models/FitxerRecurs'
+import { API_URL } from '../../utils/url.constants'
 
 type Props = {}
 
@@ -28,23 +29,16 @@ export const AppBody:React.FC<Props> = () => {
     useEffect(() => {
         if (firstLoad) {
             setFirstLoad(false);
-            handleMenuAction(selectedItem);
+            handleMenuAction(ETipus.talleres);
         }
     });
-
-    const handleMenuAction = (item: ETipus) => {
-        setSelectedItem(item);
-        setIsLoading(true);
-        setViewDetailsMode(false);
-        getData(item);
-    }
 
     const handleScroll = () => {
         document.getElementsByClassName('app-body')[0].scrollTop > 0 ? setScrolled(true) : setScrolled(false);
     }
 
     const getDetails = (id: number) => {
-        fetch('https://api.mocklets.com/mock68016/resources/' + id)
+        fetch(API_URL + 'resources/' + id)
             .then(response => response.json())
             .then(data => {
                 setViewDetailsMode(true)
@@ -54,100 +48,47 @@ export const AppBody:React.FC<Props> = () => {
             .catch(error => console.log(error))
     }
 
-    const getData = (selectedItem : ETipus) => {
-        switch(selectedItem) {
+    const getData = (selectedItem : ETipus, currentItems: ApiResponse[], setter: React.Dispatch<React.SetStateAction<ApiResponse[]>>) => {
+        if(currentItems.length === 0) {
+            fetch(API_URL + selectedItem)
+            .then(response => response.json())
+            .then(data => {
+                if(data && data.length > 0) {
+                    setter(data);
+                    setSelectedResponse(data);
+                    setIsLoading(false);
+                }else{
+                    setIsLoading(false);
+                    setSelectedResponse([]);
+                }
+            })
+            .catch(error => {
+                setIsLoading(false);
+                setSelectedResponse([]);
+            });
+        } else {
+            setSelectedResponse(currentItems);
+            setIsLoading(false);
+        }
+    }
+
+    const handleMenuAction = (item: ETipus) => {
+        setSelectedItem(item)
+        setIsLoading(true)
+        setViewDetailsMode(false)
+        switch (item) {
             case ETipus.talleres:
-                if(talleres.length === 0) {
-                    fetch('https://api.mocklets.com/mock68016/' + selectedItem)
-                    .then(response => response.json())
-                    .then(data => {
-                        if(data && data.length > 0) {
-                            setTalleres(data);
-                            setSelectedResponse(talleres);
-                            setIsLoading(false);
-                        }else{
-                            setIsLoading(false);
-                            setSelectedResponse([]);
-                        }
-                    })
-                    .catch(error => {
-                        setIsLoading(false);
-                        setSelectedResponse([]);
-                    });
-                } else {
-                    setSelectedResponse(talleres);
-                    setIsLoading(false);
-                }
-                break;
+                getData(item, talleres, setTalleres)
+                break
             case ETipus.rincones:
-                if(rincones.length === 0) {
-                    fetch('https://api.mocklets.com/mock68016/' + selectedItem)
-                    .then(response => response.json())
-                    .then(data => {
-                        if(data && data.length > 0) {
-                            setRincones(data);
-                            setSelectedResponse(rincones);
-                            setIsLoading(false);
-                        }else{
-                            setIsLoading(false);
-                            setSelectedResponse([]);
-                        }
-                    })
-                    .catch(error => {
-                        setIsLoading(false);
-                        setSelectedResponse([]);
-                    });
-                } else {
-                    setSelectedResponse(rincones);
-                    setIsLoading(false);
-                }
-                break;
+                getData(item, rincones, setRincones)
+                break
             case ETipus.ambientes:
-                if(ambientes.length === 0) {
-                    fetch('https://api.mocklets.com/mock68016/' + selectedItem)
-                    .then(response => response.json())
-                    .then(data => {
-                        if(data && data.length > 0) {
-                            setAmbientes(data);
-                            setSelectedResponse(ambientes);
-                            setIsLoading(false);
-                        }else{
-                            setIsLoading(false);
-                            setSelectedResponse([]);
-                        }
-                    })
-                    .catch(error => {
-                        setIsLoading(false);
-                        setSelectedResponse([]);
-                    });
-                } else {
-                    setSelectedResponse(ambientes);
-                    setIsLoading(false);
-                }
-                break;
+                getData(item, ambientes, setAmbientes)
+                break
             case ETipus.rutinas:
-                if(rutinas.length === 0) {
-                    fetch('https://api.mocklets.com/mock68016/' + selectedItem)
-                    .then(response => response.json())
-                    .then(data => {
-                        if(data && data.length > 0) {
-                            setRutinas(data);
-                            setSelectedResponse(rutinas);
-                            setIsLoading(false);
-                        }else{
-                            setIsLoading(false);
-                            setSelectedResponse([]);
-                        }
-                    })
-                    .catch(error => {
-                        setIsLoading(false);
-                        setSelectedResponse([]);
-                    });
-                }else {
-                    setSelectedResponse(rutinas);
-                    setIsLoading(false);
-                }
-                break;
+                getData(item, rutinas, setRutinas)
+                break
             default:
                 setSelectedResponse([]);
                 setIsLoading(false);

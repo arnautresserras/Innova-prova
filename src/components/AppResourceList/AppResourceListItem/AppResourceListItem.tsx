@@ -1,20 +1,20 @@
 import React from 'react'
-import { Recurs } from '../../../utils/models/Recurs';
+import { Recurs } from '../../../utils/models/Recurs'
 import './AppResourceListItem.css'
-import FavouriteFullIcon from '../../../assets/FavouriteFullIcon.svg';
-import FavouriteIcon from '../../../assets/FavouriteIcon.svg';
+import FavouriteFullIcon from '../../../assets/FavouriteFullIcon.svg'
+import FavouriteIcon from '../../../assets/FavouriteIcon.svg'
 
 type Props = {
-    recurs: Recurs;
-    itemFavourited: (id: number) => void;
-    handleDetails: (id: number) => void;
-};
+    recurs: Recurs
+    itemFavourited: (id: number) => void
+    handleDetails: (id: number) => void
+}
 
 export const AppResourceListItem:React.FC<Props> = ({recurs, itemFavourited, handleDetails}) => {
-    const [favourite, setFavourite] = React.useState(recurs.favourite);
+    const [favourite, setFavourite] = React.useState(recurs.favourite)
     const handleFavourite = (id: number) => {
-        setFavourite(!favourite);
-        itemFavourited(id);
+        setFavourite(!favourite)
+        itemFavourited(id)
     }
     return (
         <div className="app-resource-list-item">

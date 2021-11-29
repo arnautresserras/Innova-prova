@@ -4,10 +4,13 @@ import DropDownIcon from '../../../assets/DropDownIcon.svg'
 import DropUpIcon from '../../../assets/DropUpIcon.svg'
 import SettingsIcon from '../../../assets/SettingsIcon.svg'
 import { AppSearchBarFiltersSubcategory } from './AppSearchBarFiltersSubcategory/AppSearchBarFiltersSubcategory'
+import { ETipus } from '../../../utils/enums/ETipus'
 
-type Props = {}
+type Props = {
+    handleTypeFilter: (filter: ETipus) => void,
+}
 
-export const AppSearchBarFilters:React.FC<Props> = () => {
+export const AppSearchBarFilters:React.FC<Props> = ({ handleTypeFilter }) => {
     const [showFilters, setShowFilters] = React.useState(false)
 
     const handleFiltersClick = () => {
@@ -24,10 +27,10 @@ export const AppSearchBarFilters:React.FC<Props> = () => {
                 <img src={SettingsIcon} alt="SettingsIcon" className="app-search-bar-filters-toggle-icon" />
             </div>
             <div className={`app-search-bar-filter-dropdown ${showFilters ? 'app-search-bar-filter-dropdown--show' : ''}`}>
-                <AppSearchBarFiltersSubcategory enums={'Location'}/>
-                <AppSearchBarFiltersSubcategory enums={'Cursos'}/>
-                <AppSearchBarFiltersSubcategory enums={'Tipus'}/>
-                <AppSearchBarFiltersSubcategory enums={'Bloques'}/>
+                <AppSearchBarFiltersSubcategory tipus={'Location'}/>
+                <AppSearchBarFiltersSubcategory tipus={'Cursos'}/>
+                <AppSearchBarFiltersSubcategory tipus={'Tipus'} handleTypeFilter={(tipus) => handleTypeFilter(tipus)}/>
+                <AppSearchBarFiltersSubcategory tipus={'Bloques'}/>
             </div>
         </div>
     )

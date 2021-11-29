@@ -1,14 +1,14 @@
 import React from 'react'
 import { Recurs } from '../../utils/models/Recurs'
 import './AppResourceList.css'
-import { AppResourceListItem } from './AppResourceListItem/AppResourceListItem';
+import { AppResourceListItem } from './AppResourceListItem/AppResourceListItem'
 
 type Props = {
-    sectionName: string;
-    recursos: Recurs[];
-    handleFavourite: (id: number) => void;
-    handleDetails: (id: number) => void;
-};
+    sectionName: string
+    recursos: Recurs[]
+    handleFavourite: (id: number) => void
+    handleDetails: (id: number) => void
+}
 
 export const AppResourceList:React.FC<Props> = ({sectionName, recursos, handleFavourite, handleDetails}) => {
     return (

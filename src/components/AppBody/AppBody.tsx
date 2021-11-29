@@ -14,29 +14,35 @@ import { Recurs } from '../../utils/models/Recurs'
 type Props = {}
 
 export const AppBody:React.FC<Props> = () => {
-    const [selectedItem, setSelectedItem] = useState<ETipus>(ETipus.talleres);
-    const [selectedResponse, setSelectedResponse] = useState<ApiResponse[]>([]);
-    const [searchResponse, setSearchResponse] = useState<Recurs[]>([]);
-    const [talleres, setTalleres] = useState<ApiResponse[]>([]);
-    const [rincones, setRincones] = useState<ApiResponse[]>([]);
-    const [ambientes, setAmbientes] = useState<ApiResponse[]>([]);
-    const [rutinas, setRutinas] = useState<ApiResponse[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [scrolled, setScrolled] = useState(false);
-    const [viewDetailsMode, setViewDetailsMode] = useState(false);
-    const [selectedDetailsId, setSelectedDetailsId] = useState(0);
-    const [selectedDetails, setSelectedDetails] = useState<FitxerRecurs>({} as FitxerRecurs);
-    const [firstLoad, setFirstLoad] = useState(true);
+    const [selectedItem, setSelectedItem] = useState<ETipus>(ETipus.talleres)
+    const [selectedFilter, setSelectedFilter] = useState<ETipus>(ETipus.talleres)
+    const [selectedResponse, setSelectedResponse] = useState<ApiResponse[]>([])
+    const [searchResponse, setSearchResponse] = useState<Recurs[]>([])
+    const [filteredSearchResponse, setFilteredSearchResponse] = useState<Recurs[]>([])
+    const [talleres, setTalleres] = useState<ApiResponse[]>([])
+    const [rincones, setRincones] = useState<ApiResponse[]>([])
+    const [ambientes, setAmbientes] = useState<ApiResponse[]>([])
+    const [rutinas, setRutinas] = useState<ApiResponse[]>([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [scrolled, setScrolled] = useState(false)
+    const [viewDetailsMode, setViewDetailsMode] = useState(false)
+    const [selectedDetailsId, setSelectedDetailsId] = useState(0)
+    const [selectedDetails, setSelectedDetails] = useState<FitxerRecurs>({} as FitxerRecurs)
+    const [firstLoad, setFirstLoad] = useState(true)
+
+    useEffect(() => {
+        console.log("Filter", selectedFilter)
+    }, [selectedFilter])
 
     useEffect(() => {
         if (firstLoad) {
-            setFirstLoad(false);
-            handleMenuAction(ETipus.talleres);
+            setFirstLoad(false)
+            handleMenuAction(ETipus.talleres)
         }
-    });
+    })
 
     const handleScroll = () => {
-        document.getElementsByClassName('app-body')[0].scrollTop > 0 ? setScrolled(true) : setScrolled(false);
+        document.getElementsByClassName('app-body')[0].scrollTop > 0 ? setScrolled(true) : setScrolled(false)
     }
 
     const getDetails = (id: number) => {
@@ -56,27 +62,27 @@ export const AppBody:React.FC<Props> = () => {
             .then(response => response.json())
             .then(data => {
                 if(data && data.length > 0) {
-                    setter(data);
-                    setSelectedResponse(data);
-                    setIsLoading(false);
+                    setter(data)
+                    setSelectedResponse(data)
+                    setIsLoading(false)
                 }else{
-                    setIsLoading(false);
-                    setSelectedResponse([]);
+                    setIsLoading(false)
+                    setSelectedResponse([])
                 }
             })
             .catch(error => {
-                setIsLoading(false);
-                setSelectedResponse([]);
-            });
+                setIsLoading(false)
+                setSelectedResponse([])
+            })
         } else {
-            setSelectedResponse(currentItems);
-            setIsLoading(false);
+            setSelectedResponse(currentItems)
+            setIsLoading(false)
         }
     }
 
     const handleSearch = (searchText: string) => {
         if(searchText.length > 0) {
-            setIsLoading(true);
+            setIsLoading(true)
             fetch(API_SEARCH_URL, {
                 method: 'POST',
                 headers: {
@@ -89,25 +95,26 @@ export const AppBody:React.FC<Props> = () => {
             .then(response => response.json())
             .then(data => {
                 if(data && data.length > 0) {
-                    setSearchResponse(data);
-                    setIsLoading(false);
+                    setSearchResponse(data)
+                    setFilteredSearchResponse(data.filter((item: Recurs) => item.tag.toString().toLowerCase() === selectedFilter.toString().toLowerCase()))
+                    setIsLoading(false)
                 }else{
-                    setIsLoading(false);
-                    setSearchResponse([]);
+                    setIsLoading(false)
+                    setSearchResponse([])
                 }
             })
             .catch(error => {
-                setIsLoading(false);
-                setSelectedResponse([]);
-            });
-            console.log(searchResponse);
+                setIsLoading(false)
+                setSelectedResponse([])
+            })
+            console.log(searchResponse)
         }
     }
 
     const handleMenuAction = (item: ETipus) => {
         setSelectedItem(item)
         setIsLoading(true)
-        setSearchResponse([]);
+        setSearchResponse([])
         setViewDetailsMode(false)
         switch (item) {
             case ETipus.talleres:
@@ -123,9 +130,9 @@ export const AppBody:React.FC<Props> = () => {
                 getData(item, rutinas, setRutinas)
                 break
             default:
-                setSelectedResponse([]);
-                setIsLoading(false);
-                break;
+                setSelectedResponse([])
+                setIsLoading(false)
+                break
         }
     }
 
@@ -135,70 +142,70 @@ export const AppBody:React.FC<Props> = () => {
                 const newTalleres = talleres.map(item => {
                     item.resources.map(res => {
                         if(res.id === id) {
-                            res.favourite = !res.favourite;
+                            res.favourite = !res.favourite
                         }
-                        return res;
-                    });
-                    return item;
-                });
-                setTalleres(newTalleres);
-                setSelectedResponse(newTalleres);
-                break;
+                        return res
+                    })
+                    return item
+                })
+                setTalleres(newTalleres)
+                setSelectedResponse(newTalleres)
+                break
             case ETipus.rincones:
                 const newRincones = rincones.map(item => {
                     item.resources.map(res => {
                         if(res.id === id) {
-                            res.favourite = !res.favourite;
+                            res.favourite = !res.favourite
                         }
-                        return res;
-                    });
-                    return item;
-                });
-                setRincones(newRincones);
-                setSelectedResponse(newRincones);
-                break;
+                        return res
+                    })
+                    return item
+                })
+                setRincones(newRincones)
+                setSelectedResponse(newRincones)
+                break
             case ETipus.ambientes:
                 const newAmbientes = ambientes.map(item => {
                     item.resources.map(res => {
                         if(res.id === id) {
-                            res.favourite = !res.favourite;
+                            res.favourite = !res.favourite
                         }
-                        return res;
-                    });
-                    return item;
-                });
-                setAmbientes(newAmbientes);
-                setSelectedResponse(newAmbientes);
-                break;
+                        return res
+                    })
+                    return item
+                })
+                setAmbientes(newAmbientes)
+                setSelectedResponse(newAmbientes)
+                break
             case ETipus.rutinas:
                 const newRutinas = rutinas.map(item => {
                     item.resources.map(res => {
                         if(res.id === id) {
-                            res.favourite = !res.favourite;
+                            res.favourite = !res.favourite
                         }
-                        return res;
-                    });
-                    return item;
-                });
-                setRutinas(newRutinas);
-                setSelectedResponse(newRutinas);
-                break;
+                        return res
+                    })
+                    return item
+                })
+                setRutinas(newRutinas)
+                setSelectedResponse(newRutinas)
+                break
             default:
-                break;
+                break
         }
     }
 
     const handleViewDetails = (id: number) => {
-        setSelectedDetailsId(id);
-        setIsLoading(true);
-        setSearchResponse([]);
-        getDetails(selectedDetailsId);
+        setSelectedDetailsId(id)
+        setIsLoading(true)
+        setSearchResponse([])
+        getDetails(selectedDetailsId)
     }
 
     if(isLoading) {
         return(
             <div className="app-main">
-                <AppSearchBar handleSearch={(newString) => handleSearch(newString)}/>
+                <AppSearchBar scrolled={scrolled} handleSearch={(newString) => handleSearch(newString)} handleTypeFilter={(tipus) => setSelectedFilter(tipus)}/>
                 <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
                 <div className="app-body app-body-loader">
                     <AppLoader />
@@ -209,7 +216,7 @@ export const AppBody:React.FC<Props> = () => {
         if(searchResponse.length > 0) {
             return(
                 <div className="app-main">
-                    <AppSearchBar handleSearch={(newString) => handleSearch(newString)}/>
+                    <AppSearchBar scrolled={scrolled} handleSearch={(newString) => handleSearch(newString)} handleTypeFilter={(tipus) => setSelectedFilter(tipus)}/>
                     <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
                     <div className="app-body" onScroll={() => handleScroll()}>
                         <AppResourceList sectionName={"Resultats de la cerca"} recursos={searchResponse} handleDetails={(id) => handleViewDetails(id)} handleFavourite={(id) => handleFavourite(id)}/>
@@ -220,7 +227,7 @@ export const AppBody:React.FC<Props> = () => {
         if(viewDetailsMode) {
             return (
                 <div className="app-main">
-                    <AppSearchBar handleSearch={(newString) => handleSearch(newString)}/>
+                    <AppSearchBar scrolled={scrolled} handleSearch={(newString) => handleSearch(newString)} handleTypeFilter={(tipus) => setSelectedFilter(tipus)}/>
                     <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
                     <div className="app-body">
                         <AppDetails recurs={selectedDetails}/>
@@ -230,7 +237,7 @@ export const AppBody:React.FC<Props> = () => {
         }else{
             return(
                 <div className="app-main">
-                    <AppSearchBar scrolled={scrolled} handleSearch={(newString) => handleSearch(newString)}/>
+                    <AppSearchBar scrolled={scrolled} handleSearch={(newString) => handleSearch(newString)} handleTypeFilter={(tipus) => setSelectedFilter(tipus)}/>
                     <AppSideBar selectedItem={selectedItem} setSelectedItem={(newValue) => handleMenuAction(newValue)}/>
                     <div className="app-body" onScroll={() => handleScroll()}>
                         <div className="app-body-title">{selectedItem}</div>

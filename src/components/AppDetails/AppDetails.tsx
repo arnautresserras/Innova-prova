@@ -1,14 +1,14 @@
 import React, {  useState } from 'react'
 import { FitxerRecurs } from '../../utils/models/FitxerRecurs'
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
 import './AppDetails.css'
 
 type Props = {
     recurs: FitxerRecurs
-};
+}
 
 export const AppDetails:React.FC<Props> = ({recurs}) => {
-    const [numPages, setNumPages] = useState(0);
+    const [numPages, setNumPages] = useState(0)
 
     return (
         <div className="app-details">

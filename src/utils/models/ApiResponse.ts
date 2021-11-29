@@ -1,6 +1,6 @@
-import { Recurs } from "./Recurs";
+import { Recurs } from "./Recurs"
 
 export interface ApiResponse {
-    sectionName: string;
-    resources: Recurs[];
+    sectionName: string
+    resources: Recurs[]
 }

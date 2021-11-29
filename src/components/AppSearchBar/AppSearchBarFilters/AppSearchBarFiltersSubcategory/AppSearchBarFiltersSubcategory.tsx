@@ -8,23 +8,30 @@ import DropDownIcon from "../../../../assets/DropDownIcon.svg"
 import DropUpIcon from "../../../../assets/DropUpIcon.svg"
 
 type Props = {
-    enums: string;
+    tipus: string
+    handleTypeFilter?: (filter: ETipus) => void
 }
 
-export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({enums}) => {
+export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({tipus, handleTypeFilter}) => {
 
-    const [isOpen, setIsOpen] = React.useState(true);
-    const [selectedItem, setSelectedItem] = React.useState(0);
+    const [isOpen, setIsOpen] = React.useState(true)
+    const [selectedItem, setSelectedItem] = React.useState(0)
 
-    const handleClick = () => {
-        setIsOpen(!isOpen);
+    const handleDropdown = () => {
+        setIsOpen(!isOpen)
     }
-    switch (enums) {
+
+    const handleItemClick = (index: number, tipus: ETipus) => {
+        setSelectedItem(index)     
+        handleTypeFilter && handleTypeFilter(tipus)
+    }
+
+    switch (tipus) {
         case 'Location':
             return (
                 <div className="app-search-bar-filter-subcategory">
-                    <div className="app-search-bar-filter-subcategory-title" onClick={() => handleClick()}>
-                        <span>{enums}</span>
+                    <div className="app-search-bar-filter-subcategory-title" onClick={() => handleDropdown()}>
+                        <span>{tipus}</span>
                         <img src={isOpen ? DropUpIcon : DropDownIcon} alt="DropdownIcon" className="app-search-bar-filter-subcategory-toggle-icon" />
                     </div>
                     <div className={`app-search-bar-filter-subcategory-dropdown app-search-bar-filter-subcategory-dropdown-wide ${isOpen ? 'app-search-bar-filter-subcategory-dropdown--show' : ''}`}>
@@ -43,8 +50,8 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({enums}) => {
         case 'Curs':
             return (
                 <div className="app-search-bar-filter-subcategory">
-                    <div className="app-search-bar-filter-subcategory-title" onClick={() => handleClick()}>
-                        <span>{enums}</span>
+                    <div className="app-search-bar-filter-subcategory-title" onClick={() => handleDropdown()}>
+                        <span>{tipus}</span>
                         <img src={isOpen ? DropUpIcon : DropDownIcon} alt="DropdownIcon" className="app-search-bar-filter-subcategory-toggle-icon" />
                     </div>
                     <div className={`app-search-bar-filter-subcategory-dropdown ${isOpen ? 'app-search-bar-filter-subcategory-dropdown--show' : ''}`}>
@@ -63,8 +70,8 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({enums}) => {
         case 'Bloques':
             return (
                 <div className="app-search-bar-filter-subcategory">
-                    <div className="app-search-bar-filter-subcategory-title" onClick={() => handleClick()}>
-                        <span>{enums}</span>
+                    <div className="app-search-bar-filter-subcategory-title" onClick={() => handleDropdown()}>
+                        <span>{tipus}</span>
                         <img src={isOpen ? DropUpIcon : DropDownIcon} alt="DropdownIcon" className="app-search-bar-filter-subcategory-toggle-icon" />
                     </div>
                     <div className={`app-search-bar-filter-subcategory-dropdown app-search-bar-filter-subcategory-dropdown-wide ${isOpen ? 'app-search-bar-filter-subcategory-dropdown--show' : ''}`}>
@@ -83,8 +90,8 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({enums}) => {
         case 'Tipus':
             return (
                 <div className="app-search-bar-filter-subcategory">
-                    <div className="app-search-bar-filter-subcategory-title" onClick={() => handleClick()}>
-                        <span>{enums}</span>
+                    <div className="app-search-bar-filter-subcategory-title" onClick={() => handleDropdown()}>
+                        <span>{tipus}</span>
                         <img src={isOpen ? DropUpIcon : DropDownIcon} alt="DropdownIcon" className="app-search-bar-filter-subcategory-toggle-icon" />
                     </div>
                     <div className={`app-search-bar-filter-subcategory-dropdown app-search-bar-filter-subcategory-dropdown-wide ${isOpen ? 'app-search-bar-filter-subcategory-dropdown--show' : ''}`}>
@@ -92,7 +99,7 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({enums}) => {
                             return (
                                 <div 
                                     className={`app-search-bar-filter-subcategory-dropdown-item app-search-bar-filter-subcategory-dropdown-item-wide ${selectedItem === index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
-                                    onClick={() => setSelectedItem(index)}>
+                                    onClick={() => handleItemClick(index, item)}>
                                     <span>{item.toString()}</span>
                                 </div>
                             )
@@ -103,8 +110,8 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({enums}) => {
         default:
             return (
                 <div className="app-search-bar-filter-subcategory">
-                    <div className="app-search-bar-filter-subcategory-title" onClick={() => handleClick()}>
-                        <span>{enums}</span>
+                    <div className="app-search-bar-filter-subcategory-title" onClick={() => handleDropdown()}>
+                        <span>{tipus}</span>
                         <img src={isOpen ? DropUpIcon : DropDownIcon} alt="DropdownIcon" className="app-search-bar-filter-subcategory-toggle-icon" />
                     </div>
                     <div className={`app-search-bar-filter-subcategory-dropdown ${isOpen ? 'app-search-bar-filter-subcategory-dropdown--show' : ''}`}>

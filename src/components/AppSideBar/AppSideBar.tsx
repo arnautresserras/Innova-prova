@@ -9,7 +9,7 @@ import RutinasIcon from '../../assets/RutinasIcon.svg'
 type Props = {
     selectedItem: ETipus,
     setSelectedItem: (item: ETipus) => void,
-};
+}
 
 export const AppSideBar:React.FC<Props> = ({selectedItem, setSelectedItem}) => {
 
@@ -43,5 +43,5 @@ export const AppSideBar:React.FC<Props> = ({selectedItem, setSelectedItem}) => {
             </div>
         </div>
     )
-};
+}
 

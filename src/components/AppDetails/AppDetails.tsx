@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, {  useState } from 'react'
 import { FitxerRecurs } from '../../utils/models/FitxerRecurs'
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import './AppDetails.css'

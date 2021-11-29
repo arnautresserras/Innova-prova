@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import './AppSearchBar.css'
 import LupaIcon from '../../assets/LupaIcon.svg'
 import { AppSearchBarFilters } from './AppSearchBarFilters/AppSearchBarFilters'

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './AppSideBar.css'
 import { ETipus } from '../../utils/enums/ETipus'
 import TalleresIcon from '../../assets/TalleresIcon.svg'
@@ -34,10 +34,10 @@ export const AppSideBar:React.FC<Props> = ({selectedItem, setSelectedItem}) => {
             <div className="app-side-bar-content">
                 {Object.values(ETipus).map((item) => {
                     return (
-                        <a className={`app-side-bar-button ${selectedItem == item ? "app-side-bar-button-active":""}`} key={item} onClick={() => setSelectedItem(item)}>
+                        <div className={`app-side-bar-button ${selectedItem === item ? "app-side-bar-button-active":""}`} key={item} onClick={() => setSelectedItem(item)}>
                             <img className="app-side-bar-button-image" src={getIcon(item)} alt="tipus" />
                             {item}
-                        </a>
+                        </div>
                     )
                 })}
             </div>

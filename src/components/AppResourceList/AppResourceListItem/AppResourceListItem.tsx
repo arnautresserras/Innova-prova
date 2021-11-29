@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Recurs } from '../../../utils/models/Recurs';
 import './AppResourceListItem.css'
 import FavouriteFullIcon from '../../../assets/FavouriteFullIcon.svg';

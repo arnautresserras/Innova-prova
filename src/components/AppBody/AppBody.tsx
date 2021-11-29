@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './AppBody.css'
 import { ETipus } from '../../utils/enums/ETipus'
 import { ApiResponse } from '../../utils/models/ApiResponse'

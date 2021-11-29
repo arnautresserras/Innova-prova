@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { ApiResponse } from '../../utils/models/ApiResponse'
 import './AppResourceList.css'
 import { AppResourceListItem } from './AppResourceListItem/AppResourceListItem';

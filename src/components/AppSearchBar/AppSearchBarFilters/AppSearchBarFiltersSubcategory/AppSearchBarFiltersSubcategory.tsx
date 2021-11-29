@@ -31,7 +31,7 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({enums}) => {
                         {Object.values(ELocation).map((item, index) => {
                             return (
                                 <div 
-                                    className={`app-search-bar-filter-subcategory-dropdown-item app-search-bar-filter-subcategory-dropdown-item-wide ${selectedItem == index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
+                                    className={`app-search-bar-filter-subcategory-dropdown-item app-search-bar-filter-subcategory-dropdown-item-wide ${selectedItem === index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
                                     onClick={() => setSelectedItem(index)}>
                                     <span>{item.toString()}</span>
                                 </div>
@@ -51,7 +51,7 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({enums}) => {
                         {Object.values(ECurs).map((item, index) => {
                             return (
                                 <div 
-                                    className={`app-search-bar-filter-subcategory-dropdown-item ${selectedItem == index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
+                                    className={`app-search-bar-filter-subcategory-dropdown-item ${selectedItem === index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
                                     onClick={() => setSelectedItem(index)}>
                                     <span>{item.toString()}</span>
                                 </div>
@@ -71,7 +71,7 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({enums}) => {
                         {Object.values(EBloques).map((item, index) => {
                             return (
                                 <div 
-                                    className={`app-search-bar-filter-subcategory-dropdown-item app-search-bar-filter-subcategory-dropdown-item-wide ${selectedItem == index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
+                                    className={`app-search-bar-filter-subcategory-dropdown-item app-search-bar-filter-subcategory-dropdown-item-wide ${selectedItem === index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
                                     onClick={() => setSelectedItem(index)}>
                                     <span>{item.toString()}</span>
                                 </div>
@@ -91,7 +91,7 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({enums}) => {
                         {Object.values(ETipus).map((item, index) => {
                             return (
                                 <div 
-                                    className={`app-search-bar-filter-subcategory-dropdown-item app-search-bar-filter-subcategory-dropdown-item-wide ${selectedItem == index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
+                                    className={`app-search-bar-filter-subcategory-dropdown-item app-search-bar-filter-subcategory-dropdown-item-wide ${selectedItem === index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
                                     onClick={() => setSelectedItem(index)}>
                                     <span>{item.toString()}</span>
                                 </div>
@@ -111,7 +111,7 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({enums}) => {
                         {Object.values(ECurs).map((item, index) => {
                             return (
                                 <div 
-                                    className={`app-search-bar-filter-subcategory-dropdown-item ${selectedItem == index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
+                                    className={`app-search-bar-filter-subcategory-dropdown-item ${selectedItem === index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
                                     onClick={() => setSelectedItem(index)}>
                                     <span>{item.toString()}</span>
                                 </div>

@@ -34,9 +34,6 @@
         display: flex;
         flex-direction: column;
     }
-    .app-body{
-        height: max-content;
-    }
     .app-body-loader,
     .app-body-empty{
         height: calc(100vh - 138px);

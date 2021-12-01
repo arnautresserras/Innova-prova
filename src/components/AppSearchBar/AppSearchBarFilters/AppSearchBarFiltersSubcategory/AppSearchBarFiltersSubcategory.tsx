@@ -38,6 +38,7 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({tipus, handleTyp
                         {Object.values(ELocation).map((item, index) => {
                             return (
                                 <div 
+                                    key={index}
                                     className={`app-search-bar-filter-subcategory-dropdown-item app-search-bar-filter-subcategory-dropdown-item-wide ${selectedItem === index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
                                     onClick={() => setSelectedItem(index)}>
                                     <span>{item.toString()}</span>
@@ -58,6 +59,7 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({tipus, handleTyp
                         {Object.values(ECurs).map((item, index) => {
                             return (
                                 <div 
+                                    key={index}
                                     className={`app-search-bar-filter-subcategory-dropdown-item ${selectedItem === index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
                                     onClick={() => setSelectedItem(index)}>
                                     <span>{item.toString()}</span>
@@ -78,6 +80,7 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({tipus, handleTyp
                         {Object.values(EBloques).map((item, index) => {
                             return (
                                 <div 
+                                    key={index}
                                     className={`app-search-bar-filter-subcategory-dropdown-item app-search-bar-filter-subcategory-dropdown-item-wide ${selectedItem === index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
                                     onClick={() => setSelectedItem(index)}>
                                     <span>{item.toString()}</span>
@@ -98,6 +101,7 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({tipus, handleTyp
                         {Object.values(ETipus).map((item, index) => {
                             return (
                                 <div 
+                                    key={index}
                                     className={`app-search-bar-filter-subcategory-dropdown-item app-search-bar-filter-subcategory-dropdown-item-wide ${selectedItem === index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
                                     onClick={() => handleItemClick(index, item)}>
                                     <span>{item.toString()}</span>
@@ -118,6 +122,7 @@ export const AppSearchBarFiltersSubcategory:React.FC<Props> = ({tipus, handleTyp
                         {Object.values(ECurs).map((item, index) => {
                             return (
                                 <div 
+                                    key={index}
                                     className={`app-search-bar-filter-subcategory-dropdown-item ${selectedItem === index ? 'app-search-bar-filter-subcategory-dropdown-item-active' : ''}`}
                                     onClick={() => setSelectedItem(index)}>
                                     <span>{item.toString()}</span>
